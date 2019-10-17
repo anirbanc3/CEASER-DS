@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  gem5_build:
+    build: ./gem5_build
+    volumes:
+      - ../:/mnt/repo
+    command: bash -c "chmod +x /mnt/repo/docker/gem5_build/run.sh; /mnt/repo/docker/gem5_build/run.sh"
