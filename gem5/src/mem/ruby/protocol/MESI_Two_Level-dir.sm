@@ -106,6 +106,9 @@ machine(MachineType:Directory, "MESI Two Level directory protocol")
   void wakeUpBuffers(Addr a);
 
   Entry getDirectoryEntry(Addr addr), return_by_pointer="yes" {
+    // TODO: "directory[addr]" ... what is this? DirectoryMemory class
+    // doesn't define a [] operator
+    DPRINTF(RubySlicc, "%s\n", "calling directory[addr]");
     Entry dir_entry := static_cast(Entry, "pointer", directory[addr]);
 
     if (is_valid(dir_entry)) {

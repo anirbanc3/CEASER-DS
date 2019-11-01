@@ -113,7 +113,7 @@ AbstractCacheEntry*
 DirectoryMemory::lookup(Addr address)
 {
     assert(isPresent(address));
-    DPRINTF(RubyCache, "Looking up address: %#x\n", address);
+    DPRINTF(RubyCache, "Looking up address (lookup): %#x\n", address);
 
     uint64_t idx = mapAddressToLocalIdx(address);
     assert(idx < m_num_entries);
@@ -125,7 +125,7 @@ DirectoryMemory::allocate(Addr address, AbstractCacheEntry *entry)
 {
     assert(isPresent(address));
     uint64_t idx;
-    DPRINTF(RubyCache, "Looking up address: %#x\n", address);
+    DPRINTF(RubyCache, "Looking up address (allocate): %#x\n", address);
 
     idx = mapAddressToLocalIdx(address);
     assert(idx < m_num_entries);

@@ -6,3 +6,9 @@ services:
     volumes:
       - ../:/mnt/repo
     command: bash -c "chmod +x /mnt/repo/docker/gem5_build/run.sh; /mnt/repo/docker/gem5_build/run.sh"
+  
+  run_povray:
+    build: ./gem5_build
+    volumes:
+      - ../:/mnt/repo
+    command: bash -c "chmod +x /mnt/repo/docker/gem5_build/run_povray.sh; /mnt/repo/docker/gem5_build/run_povray.sh /mnt/repo/gem5"

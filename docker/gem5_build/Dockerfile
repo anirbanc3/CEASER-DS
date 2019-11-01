@@ -24,3 +24,10 @@ RUN pip install six
 
 RUN apt install -yqq \
     libboost-all-dev
+
+RUN dpkg --add-architecture i386
+
+RUN apt update
+
+RUN apt install -yqq \
+    libc6:i386
