@@ -12,3 +12,9 @@ services:
     volumes:
       - ../:/mnt/repo
     command: bash -c "chmod +x /mnt/repo/docker/gem5_build/run_povray.sh; /mnt/repo/docker/gem5_build/run_povray.sh /mnt/repo/gem5"
+
+  run_gcc:
+    build: ./gem5_build
+    volumes:
+      - ../:/mnt/repo
+    command: bash -c "chmod +x /mnt/repo/docker/gem5_build/run_gcc.sh; /mnt/repo/docker/gem5_build/run_gcc.sh /mnt/repo/gem5"

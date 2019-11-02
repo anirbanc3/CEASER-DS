@@ -2,3 +2,7 @@ to build gem5:
   cd docker
   docker-compose build
   docker-compose run gem5_build
+
+to run a benchmark:
+  cd docker
+  docker-compose run run_gcc

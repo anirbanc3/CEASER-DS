@@ -25,3 +25,4 @@ gem5/system/arm/simple_bootloader/boot.arm
 gem5/system/arm/simple_bootloader/boot_emm.arm
 gem5/system/arm/aarch64_bootloader/boot_emm.arm64
 gem5/system/arm/aarch64_bootloader/boot_emm_v2.arm64
+gem5/gcc

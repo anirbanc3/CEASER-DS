@@ -209,6 +209,7 @@ class Named
 } while (0)
 
 #else // !TRACING_ON
+#error // make sure debug statements are on
 
 #define DTRACE(x) (false)
 #define DDUMP(x, data, count) do {} while (0)
