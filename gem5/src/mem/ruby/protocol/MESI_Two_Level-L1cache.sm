@@ -26,6 +26,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// plan: when a line gets moved up to L2 cache, that should be a safe time
+// to change the directory's encryption pattern for that line (I think)
+// transitions marked with TODO are where stuff gets pushed up to L2
+
 machine(MachineType:L1Cache, "MESI Directory L1 Cache CMP")
  : Sequencer * sequencer;
    CacheMemory * L1Icache;
@@ -1182,7 +1186,8 @@ machine(MachineType:L1Cache, "MESI Directory L1 Cache CMP")
     d_sendDataToRequestor;
     l_popRequestQueue;
   }
-
+  
+  //TODO
   transition(E, {Fwd_GETS, Fwd_GET_INSTR}, S) {
     d_sendDataToRequestor;
     d2_sendDataToL2;
@@ -1204,6 +1209,7 @@ machine(MachineType:L1Cache, "MESI Directory L1 Cache CMP")
     kd_wakeUpDependents;
   }
 
+  //TODO
   transition(M, Inv, I) {
     forward_eviction_to_cpu;
     f_sendDataToL2;
@@ -1220,7 +1226,8 @@ machine(MachineType:L1Cache, "MESI Directory L1 Cache CMP")
     d_sendDataToRequestor;
     l_popRequestQueue;
   }
-
+  
+  //TODO
   transition(M, {Fwd_GETS, Fwd_GET_INSTR}, S) {
     d_sendDataToRequestor;
     d2_sendDataToL2;

@@ -106,15 +106,30 @@ machine(MachineType:Directory, "MESI Two Level directory protocol")
   void wakeUpBuffers(Addr a);
 
   Entry getDirectoryEntry(Addr addr), return_by_pointer="yes" {
-    // TODO: "directory[addr]" ... what is this? DirectoryMemory class
-    // doesn't define a [] operator
+    // directory[addr] calls DirectoryMemory.cc::lookup
+    // which then returns a pointer from m_entries[], also in DirectoryMemory.cc
     DPRINTF(RubySlicc, "%s\n", "calling directory[addr]");
     Entry dir_entry := static_cast(Entry, "pointer", directory[addr]);
 
     if (is_valid(dir_entry)) {
       return dir_entry;
     }
+    
+    // create a new entry if one hasn't been made for this directory cache line
+    dir_entry :=  static_cast(Entry, "pointer",
+                              directory.allocate(addr, new Entry));
+    return dir_entry;
+  }
 
+  Entry getInvDirectoryEntry(Addr addr), return_by_pointer="yes" {
+    DPRINTF(RubySlicc, "%s\n", "calling invdirectory[addr]");
+    Entry dir_entry := static_cast(Entry, "pointer", directory[addr]);
+
+    if (is_valid(dir_entry)) {
+      return dir_entry;
+    }
+    
+    // create a new entry if one hasn't been made for this directory cache line
     dir_entry :=  static_cast(Entry, "pointer",
                               directory.allocate(addr, new Entry));
     return dir_entry;
@@ -376,7 +391,7 @@ machine(MachineType:Directory, "MESI Two Level directory protocol")
         out_msg.addr := address;
         out_msg.Type := CoherenceResponseType:INV;
         out_msg.Sender := machineID;
-        out_msg.Destination.add(getDirectoryEntry(address).Owner);
+        out_msg.Destination.add(getInvDirectoryEntry(address).Owner);
         out_msg.MessageSize := MessageSizeType:Response_Control;
       }
     }
@@ -422,17 +437,17 @@ machine(MachineType:Directory, "MESI Two Level directory protocol")
 
 
   // TRANSITIONS
-
+  // entry is available for something to reserve it, but is about to be reserved 
   transition(I, Fetch, IM) {
     qf_queueMemoryFetchRequest;
     j_popIncomingRequestQueue;
   }
-
+  // entry is reserved, but we want it
   transition(M, Fetch) {
     inv_sendCacheInvalidate;
     z_stallAndWaitRequest;
   }
-
+  // reserve the entry
   transition(IM, Memory_Data, M) {
     d_sendData;
     l_popMemQueue;
@@ -463,7 +478,7 @@ machine(MachineType:Directory, "MESI Two Level directory protocol")
     qf_queueMemoryFetchRequestDMA;
     j_popIncomingRequestQueue;
   }
-
+  
   transition(ID, Memory_Data, I) {
     dr_sendDMAData;
     w_deallocateTBE;

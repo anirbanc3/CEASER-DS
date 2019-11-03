@@ -117,7 +117,21 @@ DirectoryMemory::lookup(Addr address)
 
     uint64_t idx = mapAddressToLocalIdx(address);
     assert(idx < m_num_entries);
-    return m_entries[idx];
+    
+    /*
+     */
+//     if (m_entries[idx]) {
+//       delete m_entries[idx];
+//       m_entries[idx] = NULL;
+//     }
+    
+    
+    auto result = m_entries[idx];
+//     if (result) {
+//       delete result;
+//       m_entries[idx] = NULL;
+//     }
+    return result;
 }
 
 AbstractCacheEntry*
