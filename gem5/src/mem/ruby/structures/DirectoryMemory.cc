@@ -62,6 +62,13 @@ DirectoryMemory::DirectoryMemory(const Params *p)
     }
     m_size_bits = floorLog2(m_size_bytes);
     m_num_entries = 0;
+
+    // PBox
+    PBox pbox = new PBox("deadbeef");
+
+    // Epoch Parameters
+    epoch_length = 200; // Just picking 200 for now
+    epoch_age = 0;
 }
 
 void
@@ -82,6 +89,7 @@ DirectoryMemory::~DirectoryMemory()
         }
     }
     delete [] m_entries;
+    delete pbox;
 }
 
 bool
@@ -98,6 +106,19 @@ DirectoryMemory::isPresent(Addr address)
 uint64_t
 DirectoryMemory::mapAddressToLocalIdx(Addr address)
 {
+    /*
+    // We've made an access, so update the epoch age
+    epoch_age += 1;
+    // Detect the end of an age and switch the encryption key
+    if(epoch_age >= epoch_length) {
+        // Generate new key
+        // Remap m_entries
+        // Throw away old key "securely"
+        // Reset epoch age
+        epoch_length = 0;
+    }
+    */
+
     uint64_t ret = 0;
     for (const auto& r: addrRanges) {
         if (r.contains(address)) {
@@ -107,6 +128,7 @@ DirectoryMemory::mapAddressToLocalIdx(Addr address)
         ret += r.size();
     }
     return ret >> RubySystem::getBlockSizeBits();
+    // return pbox.scramble(ret) >> RubySystem::getBlockSizeBits();
 }
 
 AbstractCacheEntry*

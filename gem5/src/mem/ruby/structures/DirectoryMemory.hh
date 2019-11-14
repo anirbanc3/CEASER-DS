@@ -51,6 +51,9 @@
 #include "params/RubyDirectoryMemory.hh"
 #include "sim/sim_object.hh"
 
+// PBOX
+#include "mem/ruby/common/pbox.hh"
+
 class DirectoryMemory : public SimObject
 {
   public:
@@ -101,6 +104,14 @@ class DirectoryMemory : public SimObject
      * this is all possible memory addresses.
      */
     const AddrRangeList addrRanges;
+
+    //PBox Randomization
+    PBox pbox;
+
+    // How long between remappings
+    uint64_t epoch_length;
+    // Counter for number of accesses.
+    uint64_t epoch_age;
 };
 
 inline std::ostream&
