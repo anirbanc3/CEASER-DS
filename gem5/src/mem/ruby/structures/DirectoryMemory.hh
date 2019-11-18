@@ -46,6 +46,7 @@
 
 #include "base/addr_range.hh"
 #include "mem/ruby/common/Address.hh"
+#include "mem/ruby/common/pbox.hh"
 #include "mem/ruby/protocol/DirectoryRequestType.hh"
 #include "mem/ruby/slicc_interface/AbstractCacheEntry.hh"
 #include "params/RubyDirectoryMemory.hh"

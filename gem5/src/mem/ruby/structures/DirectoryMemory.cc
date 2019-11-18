@@ -62,9 +62,8 @@ DirectoryMemory::DirectoryMemory(const Params *p)
     }
     m_size_bits = floorLog2(m_size_bytes);
     m_num_entries = 0;
-
-    // PBox
-    PBox pbox = new PBox("deadbeef");
+    
+    pbox = new PBox("deadbeef", m_size_bits);
 
     // Epoch Parameters
     epoch_length = 200; // Just picking 200 for now
@@ -74,7 +73,8 @@ DirectoryMemory::DirectoryMemory(const Params *p)
 void
 DirectoryMemory::init()
 {
-    m_num_entries = m_size_bytes / RubySystem::getBlockSizeBytes();
+    m_num_entries = m_size_bytes / RubySystem::getBlockSizeBytes()
+    
     m_entries = new AbstractCacheEntry*[m_num_entries];
     for (int i = 0; i < m_num_entries; i++)
         m_entries[i] = NULL;
@@ -127,8 +127,9 @@ DirectoryMemory::mapAddressToLocalIdx(Addr address)
         }
         ret += r.size();
     }
-    return ret >> RubySystem::getBlockSizeBits();
+    // return ret >> RubySystem::getBlockSizeBits();
     // return pbox.scramble(ret) >> RubySystem::getBlockSizeBits();
+    return pbox.scramble(ret >> RubySystem::getBlockSizeBits());
 }
 
 AbstractCacheEntry*
