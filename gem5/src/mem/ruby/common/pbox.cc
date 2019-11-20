@@ -29,7 +29,7 @@ PBox::PBox(std::string seed, int nbits)
 
 PBox::~PBox()
 {
-
+  return;
 }
 
 /* pseudorandom number generator based on the FNV-1A

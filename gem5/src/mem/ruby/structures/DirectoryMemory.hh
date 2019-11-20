@@ -107,7 +107,7 @@ class DirectoryMemory : public SimObject
     const AddrRangeList addrRanges;
 
     //PBox Randomization
-    PBox pbox;
+    PBox* pbox;
 
     // How long between remappings
     uint64_t epoch_length;

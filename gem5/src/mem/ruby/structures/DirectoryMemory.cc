@@ -73,7 +73,7 @@ DirectoryMemory::DirectoryMemory(const Params *p)
 void
 DirectoryMemory::init()
 {
-    m_num_entries = m_size_bytes / RubySystem::getBlockSizeBytes()
+    m_num_entries = m_size_bytes / RubySystem::getBlockSizeBytes();
     
     m_entries = new AbstractCacheEntry*[m_num_entries];
     for (int i = 0; i < m_num_entries; i++)
@@ -127,9 +127,9 @@ DirectoryMemory::mapAddressToLocalIdx(Addr address)
         }
         ret += r.size();
     }
-    // return ret >> RubySystem::getBlockSizeBits();
-    // return pbox.scramble(ret) >> RubySystem::getBlockSizeBits();
-    return pbox.scramble(ret >> RubySystem::getBlockSizeBits());
+    return ret >> RubySystem::getBlockSizeBits();
+    // return pbox->scramble(ret) >> RubySystem::getBlockSizeBits();
+    // return pbox->scramble(ret >> RubySystem::getBlockSizeBits()); // This causes idx >= m_num_entries which causes runtime errors.
 }
 
 AbstractCacheEntry*

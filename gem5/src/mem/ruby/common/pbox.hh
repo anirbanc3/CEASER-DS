@@ -2,11 +2,12 @@
 #define __CEASER_DS_PBOX_H__
 
 #include <cstdint>
+#include <cassert>
 #include <string>
 
 class PBox {
   public:
-    PBox(std::string seed) : PBox(seed, 64);
+    PBox(std::string seed) : PBox(seed, 64) {};
     PBox(std::string seed, int nbits);
     ~PBox();
     uint64_t scramble(uint64_t n);

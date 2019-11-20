@@ -44,3 +44,6 @@ Source('IntVec.cc')
 Source('NetDest.cc')
 Source('SubBlock.cc')
 Source('WriteMask.cc')
+
+# PBOX
+Source('pbox.cc')
